@@ -25,4 +25,4 @@ UserSchema.plugin(passportLocalMongoose); //to use methods such as User.register
 
 
 
-module.exports = mongoose.model('RentUser',UserSchema);
+module.exports = mongoose.model('User',UserSchema);

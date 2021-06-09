@@ -1,4 +1,7 @@
-require('dotenv').config();
+if (process.env.NODE_ENV !== "production") {
+    require('dotenv').config();
+} // dotenv is not for production! only loads up the variables from .env when in development(localhost) 
+//for production in heroku, u need to add all env variables seperately
 const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
@@ -10,6 +13,7 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local')
 const flash = require('connect-flash')
 const MongoStore = require('connect-mongo');
+const helmet = require('helmet');
 
 //requiring routes
 const indexRoutes = require('./routes/index.js')
@@ -18,11 +22,11 @@ const reviewRoutes = require('./routes/reviews.js')
 
 
 //====================DATABASE CONNECTION==========================
-const db = process.env.MY_MONGODB_URI;
+const dbUrl = process.env.MY_MONGODB_URI || "mongodb://localhost:27017/rent_it"
 
 const connectDB = async () => {
 	try {
-		await mongoose.connect(db, {
+		await mongoose.connect(dbUrl, {
 			useUnifiedTopology: true,
 			useNewUrlParser: true,
 			useFindAndModify: false,
@@ -48,6 +52,7 @@ app.use(express.urlencoded({
 
 app.use(methodOverride('_method')); // to use put and delete methods
 app.use(flash());
+app.use(helmet());
 
 
 
@@ -59,7 +64,7 @@ const store = MongoStore.create({
 	mongoUrl: dbUrl,
 	touchAfter: 24 * 60 * 60,
 	crypto: {
-		secret: process.env.SECRET
+		secret: process.env.SECRET || secret
 	}
 });
 
@@ -70,7 +75,7 @@ store.on('error', e => {
 app.use(
 	session({
 		store: store,
-		secret: process.env.SECRET,
+		secret: process.env.SECRET || "secret",
 		resave: true,
 		saveUninitialized: true,
 	})
@@ -108,6 +113,8 @@ app.get('*', (req, res) => {
 //    console.log(user); 
 //  });
 
-app.listen(3000, function () {
-	console.log("SERVER HAS STARTED!!");
+const port = process.env.PORT || 3000
+
+app.listen(port, function () {
+	console.log(`SERVER listening on port ${port}!`);
 });
