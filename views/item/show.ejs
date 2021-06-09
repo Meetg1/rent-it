@@ -1,0 +1,388 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <title> Rent-it </title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+    integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.2.0/jquery.rateyo.min.css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"
+    integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" href="/stylesheets/main.css">
+
+  <script src='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet' />
+</head>
+
+<body>
+
+
+  <nav class="navbar navbar-expand-md" style="background-color: #e3f2fd;">
+    <a class="navbar-brand" href="/">Rent-it</a>
+    <button class="navbar-toggler navbar-light" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+      aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav mr-auto">
+        <li class="ml-3 nav-item <%= typeof page !== 'undefined' && page === 'home' ? 'active' : '' %>">
+          <a class="nav-link" href="/items">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <% if(!currentUser){ %>
+        <li class="ml-3 nav-item <%= typeof page !== 'undefined' && page === 'login' ? 'active' : '' %>">
+          <a class="nav-link" href="/login">Login</a>
+        </li>
+        <li class="ml-3 nav-item <%= typeof page !== 'undefined' && page === 'register' ? 'active' : '' %>">
+          <a class="nav-link" href="/register">Sign Up</a>
+        </li>
+        <%} else { %>
+        <li class="ml-3 nav-item"><span class="nav-link">Signed in as <a
+              href="/users/<%=currentUser._id%>"><%=currentUser.username%></a></span></li>
+        <li class="ml-3 nav-item <%= typeof page !=='undefined' && page === 'profile' ? 'active' : '' %>">
+          <a class="nav-link" href="/users/<%=currentUser._id%>">Profile</a>
+        </li>
+        <li class="ml-3 nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+        <% } %>
+      </ul>
+      <form class="form-inline mt-2 mt-md-0" action="/items" method="GET">
+        <input class="form-control mr-sm-2" name="search" type="text" placeholder="Search items..." aria-label="Search"
+          required>
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </div>
+  </nav>
+
+
+  <!-------------- for flash messages --------------------->
+  <div class="container">
+
+    <% if(error && error.length>0){ %>
+    <div class="alert alert-danger" role="alert">
+      <%= error %>
+    </div>
+    <% } %>
+
+    <% if(success && success.length>0){ %>
+    <div class="alert alert-success" role="alert">
+      <%= success %>
+    </div>
+    <%	} %>
+
+  </div>
+
+
+
+  <div class="container mt-5">
+
+    <div class="row">
+
+      <div class="col-md-8 mb-4">
+        <div class="card">
+          <img class="show-img" src="<%=item.image%>" alt="Card image cap">
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <span><a href="#" class="card-title card-link heading"><%= item.name %> </a> </span>
+              <span class="rent"> Available for Rent: <%if(item.isRented){%>
+                <svg class="text-danger" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                  <path
+                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z" />
+                </svg>
+                <%}else{%>
+                <svg class="text-success" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                  <path
+                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                </svg>
+                <%}%>
+            </span>
+            
+            <span class="text-info heading"> ₹<%= item.price %>/day </span>
+            </div>
+            <p class="card-text mt-3" style="text-align: justify;"> Lorem ipsum dolor sit amet, consectetur adipiscing
+              elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+              nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+              commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+              nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+              anim id est laborum. </p>
+            <p class="card-text"> <em>Submitted By <a href="/users/<%=item.author.id%>"><%= item.author.username %></a>,
+                on <%= item.updatedAt.toDateString()%> </em>
+            </p>
+            <% if(currentUser && item.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+            <a class="btn btn-xs btn-warning" href="/items/<%=item.slug%>/edit"> Edit </a>
+            <form class="d-inline" action='/items/<%=item.slug%>?_method=DELETE' method="POST">
+              <button class="btn btn-xs btn-danger">Delete</button>
+            </form>
+            <%  } %>
+          </div>
+        </div>
+
+
+
+      </div>
+
+      <div class='col-md-4'>
+        <div id='map'></div>
+        <div class="card mt-5">
+          <h5 class="p-3">Contact Details</h5>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+              <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-map-pin"
+                  width="20" height="20" viewBox="0 0 24 24" stroke-width="1" stroke="#2c3e50" fill="none"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <circle cx="12" cy="11" r="3" />
+                  <path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z" />
+                </svg> Location</h6>
+              <span class="text-secondary">
+                <% if (item.location) { %>
+                  <%= item.location %>
+                  <% }else{ %>
+                  -
+                  <%} %>
+              </span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+              <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-phone-call"
+                  width="20" height="20" viewBox="0 0 24 24" stroke-width="1" stroke="#2c3e50" fill="none"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path
+                    d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2" />
+                  <path d="M15 7a2 2 0 0 1 2 2" />
+                  <path d="M15 3a6 6 0 0 1 6 6" />
+                </svg> Phone</h6>
+              <span class="text-secondary">
+                +91 <% if (item.mobile) { %>
+                  <%= item.mobile %>
+                  <% }else{ %>
+                  -
+                  <%} %>
+              </span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+              <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail"
+                  width="20" height="20" viewBox="0 0 24 24" stroke-width="1" stroke="#2c3e50" fill="none"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <rect x="3" y="5" width="18" height="14" rx="2" />
+                  <polyline points="3 7 12 13 21 7" />
+                </svg> Email</h6>
+              <span class="text-secondary">
+                <% if (item.email) { %>
+                  <%= item.email %>
+                  <% }else{ %>
+                  -
+                  <%} %> 
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row mt-5">
+      <div class="col-md-8">
+
+
+        <!-- review section starts here -->
+        <div class="card review-card mb-3">
+          <!--Setting up the add new review button that is used for collapsing-->
+          <div class="card-header text-right text-light">
+            <a class="btn btn-success" role="button" data-toggle="collapse" data-target="#review-collapse"
+              aria-expanded="false" aria-controls="collapsereview">
+              <i aria-hidden="true" class="fas fa-plus"></i> Add Your Review
+            </a>
+          </div>
+          <div class="card-body">
+            <h4 class="card-title text-info">reviews <i aria-hidden="true" class="fas fa-comment-alt"></i></h4>
+
+
+            <!--Collapsible Add a review form START-->
+            <div class="collapse" id="review-collapse">
+              <div class="card" style="border-left: 5px solid #00C851;">
+                <!--If the user is logged in, show the new review form-->
+                <% if(currentUser) {  %>
+                <h4 class="card-header">Add your review <i class="fas fa-pencil-alt" aria-hidden="true"></i></h4>
+                <div class="container mt-3">
+                  <form action="/items/<%=item.slug%>/reviews" method="POST">
+                    <div class="form-group">
+                      <input class="form-control" type="text" disabled value="<%= currentUser.username %>">
+                    </div>
+                    <div class="form-group">
+                      <h5>Rating:</h5>
+                      <div style="display: inline-table" id="rateYo"></div>
+                      <h4 class="ratemeter d-inline float-right"></h4>
+                      <input id="rateyoid" class="d-none" type="text" name="review[rating]" required>
+                    </div>
+                    <div class="form-group">
+                      <textarea required name="review[text]" rows="5" cols="70" class="form-control"
+                        placeholder="Write your review..."></textarea>
+                    </div>
+                    <div class="form-group">
+                      <button class="btn btn-success btn-sm">Submit <i aria-hidden="true"
+                          class="fas fa-comment-alt"></i></button>
+                    </div>
+                  </form>
+                </div>
+                <% } else { %>
+                <h5 class="card-header">Please login to add a review. <a href="/login">Click here </a>to login.</h5>
+                <% }        %>
+              </div>
+            </div>
+            <!--Collapsible Add a review form END-->
+            <hr>
+            <% if(item.reviews.length === 0) { %>
+            <em style="color: grey;">No reviews yet.</em>
+            <% } else {  %>
+            <!-- looping through reviews and displaying them -->
+            <div class="mx-3">
+              <% item.reviews.forEach(function(review){  %>
+              <div class="row">
+                <div class="col-md-3">
+                  <% if (review.rating === 1) { %>
+                  <%- '<span class="fa fa-star checkedred"></span>'.repeat(1) %><%- '<span class="far fa-star"></span>'.repeat(4) %>
+                  <% } else if(review.rating === 2) {%>
+                  <%- '<span class="fa fa-star checkedred"></span>'.repeat(2) %><%- '<span class="far fa-star"></span>'.repeat(3) %>
+                  <% } else if(review.rating === 3) {%>
+                  <%- '<span class="fa fa-star checkedorange"></span>'.repeat(3) %><%- '<span class="far fa-star"></span>'.repeat(2) %>
+                  <% } else if(review.rating === 4){%>
+                  <%- '<span class="fa fa-star checkedgreen"></span>'.repeat(4) %><%- '<span class="far fa-star"></span>'.repeat(1) %>
+                  <% } else {%>
+                  <%- '<span class="fa fa-star checkedgreen"></span>'.repeat(5) %>
+                  <% } %>
+
+                  <div>Review by: <a href="/users/<%=review.author.id%>">
+                      <strong><%= review.author.username %></strong>
+                    </a>
+                  </div>
+                  <span><em><%= review.updatedAt.toDateString() %></em></span>
+                </div>
+                <div class="col-md-9">
+                  <p style="text-align: justify;" class="mt-3">
+                    <%= review.text %>
+                  </p>
+                </div>
+              </div>
+              <% if(currentUser && review.author.id.equals(currentUser._id)){ %>
+              <form class="mt-1" id="delete-form"
+                action="/items/<%=item.slug %>/reviews/<%=review._id %>?_method=DELETE" method="POST">
+                <input type="submit" class="btn btn-sm btn-danger d-inline" value="Delete Review">
+              </form>
+              <% } %>
+              <hr>
+              <%  })  %>
+            </div>
+            <%   }   %>
+          </div>
+        </div>
+      </div>
+      <!--review section card ends here -->
+    </div>
+  </div>
+
+
+
+  <script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoibWVldGcxIiwiYSI6ImNrb2JkYW1wdTJ5d3UycWx5azkxaWloZDcifQ.hBNtT5Hzr7ohEpbHIlbigQ';
+    const item = <%-JSON.stringify(item)%>;
+    const map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
+      center: item.geometry.coordinates, // starting position [lng, lat]
+      zoom: 10 // starting zoom
+    });
+
+    new mapboxgl.Marker()
+      .setLngLat(item.geometry.coordinates)
+      // .setPopup(
+      //     new mapboxgl.Popup({ offset: 25 })
+      //         .setHTML(
+      //             `<h4>${item.name}</h4><p>${item.location}</p>`
+      //         )
+      // )
+      .addTo(map)
+  </script>
+
+
+
+  <!-- <script>
+// to use the item model coming from the server, here in our internal script tag because cannot directly use item object here
+
+var item =  JSON.stringify(item) ;  // add %- %>  ejs symbols to json.stringify
+	
+mapboxgl.accessToken = 'pk.eyJ1IjoibWVldGcxIiwiYSI6ImNrb2JkYW1wdTJ5d3UycWx5azkxaWloZDcifQ.hBNtT5Hzr7ohEpbHIlbigQ';
+	
+var map = new mapboxgl.Map({
+	container: 'map',
+	style: 'mapbox://styles/mapbox/streets-v11',
+	center : item.coordinates,
+	zoom : 6 
+});
+
+//design popup	
+var popup = new mapboxgl.Popup({ offset : 25 }).setHTML('<h3>'+item.name+'</h3><p>'+item.description+'</p>')
+
+//make a marker and add it to our location	
+var marker = new mapboxgl.Marker()
+	.setLngLat(item.coordinates) //marker position
+	//creating a popup and adding html to it
+	.setPopup(popup)
+	.addTo(map);
+	
+
+	
+</script> -->
+
+
+  </div> <!-- container end div -->
+
+  <!-- Footer -->
+
+  <footer class="footer">
+    <div class="container">
+      <p class="text-muted pt-3">&copy; Rent-it 2020 | <a href="/items">Home</a> | <a href="/items/new">New item</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
+
+  <script>
+    $(function () {
+      $("#rateYo").rateYo({
+        rating: 3,
+        starWidth: "25px",
+        fullStar: true,
+        multiColor: {
+          "startColor": "#FF0000", //RED
+          "endColor": "#00FF00" //GREEN
+        },
+      }).on("rateyo.set", function (e, data) {
+        var rating = data.rating;
+        // set the value in input form 
+        document.getElementById("rateyoid").value = rating;
+        // display the rating value to user
+        $(".ratemeter").each(function () {
+          $(this).text(rating);
+        });
+      });
+    });
+  </script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>

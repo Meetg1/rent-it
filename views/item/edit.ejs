@@ -1,0 +1,31 @@
+<%- include("../partials/header.ejs") %>
+
+
+
+<div class="container mt-5">
+
+	<h2 class="text-center"> Edit <%= item.name %> </h2>
+	<div class="row justify-content-center">
+		<div class="col-md-6">
+			<form action="/items/<%=item.slug%>?_method=PUT" method="POST">
+				<h4 class="mb-4"> Item details </h4>
+				<input class="form-control form-group"  type="text" name="item[name]" value="<%=item.name %>" required>
+				<input class="form-control form-group"  type="text" name="item[image]" value="<%= item.image %>" required>
+				<input class="form-control form-group"  type="text" name="item[description]" value="<%=item.description %>">
+				<input class="form-control form-group"  type="number" name="item[price]" placeholder="Rent per day*" min="0" step="0.5" value="<%=item.price%>" required>
+				<div class="form-group form-check">
+					<input type="checkbox" class="form-check-input" id="exampleCheck1" name="item[isRent]">
+					<label class="form-check-label" for="exampleCheck1">Available for rent</label>
+				</div>
+				<h4 class="mb-4"> Contact details </h4>
+				<input class="form-control form-group"  type="text" name="item[mobile]" placeholder="mobile no.*"  value="<%=item.mobile%>" required>
+				<input class="form-control form-group"  type="email" name="item[email]" placeholder="email" value="<%=item.email%>" >
+				<button class="btn btn-large btn-primary btn-block form-group" > Edit </button>
+   			</form>
+			<a href="/items">Go Back</a>
+		</div>
+	</div>
+	
+</div> 
+
+<%- include("../partials/footer.ejs") %>

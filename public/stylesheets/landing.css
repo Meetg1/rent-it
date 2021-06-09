@@ -1,0 +1,114 @@
+/* General */
+
+body,
+html {
+  font-family: Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  outline: 0 !important;
+}
+
+a {
+  text-decoration: none !important;
+}
+
+li {
+  list-style-type: none !important;
+}
+
+.heading {
+  margin-top: 25vh;
+  font-size: 1.4rem;
+}
+
+.heading h3 {
+  font-size: 5.6rem;
+}
+
+.top-right-gradient {
+  position: absolute;
+  top: -17%;
+  right: -8%;
+  width: 50%;
+  height: 100%;
+  border-radius: 35%;
+  background: linear-gradient(#ee9ca7, #ec4357);
+}
+
+.bottom-left-gradient {
+  position: absolute;
+  bottom: -45%;
+  left: -15%;
+  width: 600px;
+  height: 600px;
+  border-radius: 35%;
+}
+
+
+
+.img1 {
+  position: absolute;
+  top: -5%;
+  right: -1%;
+  width: 40%;
+  height: 80%;
+}
+
+p {
+
+  margin-bottom: 20px;
+}
+
+.arrowFromLeft {
+  overflow: hidden;
+  padding: 12px 30px;
+  border-radius: 6px;
+  background-color: hsl(222, 100%, 95%);
+  color: hsl(243, 80%, 62%);
+  position: relative;
+  line-height: 3em;
+}
+
+
+.arrowFromLeft:hover span {
+  transform: translateX(15px);
+}
+
+.arrowFromLeft:hover svg {
+  opacity: 1;
+  transform: translate(15px, -50%);
+}
+
+.arrowFromLeft span {
+  display: inline-block;
+  transition: transform .3s cubic-bezier(.455, .03, .515, .955);
+}
+
+.arrowFromLeft svg {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  fill: hsl(243, 80%, 62%);
+  opacity: 0;
+  transform: translate(-10px, -50%);
+  transition: opacity .3s .05s cubic-bezier(.455, .03, .515, .955), transform .3s .05s cubic-bezier(.455, .03, .515, .955);
+}
+
+@media (max-width: 1200px) {}
+
+@media (max-width: 1002px) {
+  .right {
+    display: none;
+  }
+
+  .container {
+    text-align: center;
+  }
+}

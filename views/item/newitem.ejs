@@ -1,0 +1,27 @@
+<%- include("../partials/header.ejs") %>
+
+<div class="container mt-5">
+
+	
+	<div class="row justify-content-center">
+		<div class="col-md-6">
+			<form action="/items" method="POST">
+				<h4 class="mb-4"> Item details </h4>
+				<input class="form-control form-group"  type="text" name="name" placeholder="Name of item*" required>
+				<input class="form-control form-group"  type="text" name="imageurl" placeholder="image url*" required>
+				<input class="form-control form-group"  type="text" name="description" placeholder="Add Description" >
+				<input class="form-control form-group"  type="number" name="price" placeholder="Rent per day*" min="0" step="0.5" required>
+				<input class="form-control form-group"  type="text" name="location" placeholder="Add Location*" required>
+				<h4 class="mb-4"> Contact details </h4>
+				<input class="form-control form-group"  type="text" name="mobile" placeholder="mobile no.*" required>
+				<input class="form-control form-group"  type="email" name="email" placeholder="email">
+				<button class="btn btn-large btn-primary btn-block form-group" > Submit </button>
+			</form>
+			<a href="/items">Go Back</a>
+		</div>
+	</div>
+	
+</div>
+
+
+<%- include("../partials/footer.ejs") %>

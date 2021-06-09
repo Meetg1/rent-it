@@ -1,0 +1,126 @@
+html {
+	position: relative;
+	min-height: 100%;
+}
+
+body {
+	margin-bottom: 70px;
+}
+
+/* flash messages */
+.alert {
+	margin-top: 40px;
+}
+
+.mycontainer {
+	width: 100%;
+	margin: 6rem auto;
+}
+
+.mycontainer .row {
+
+	display: flex;
+
+}
+
+.show-img {
+	/* all imgs inside thumbnail */
+	width: 100%;
+	height: 450px;
+}
+
+.card-img-top {
+	/* all imgs inside thumbnail */
+	width: 100%;
+	height: 250px;
+}
+
+.user-img {
+	width: 70%;
+	height: 17rem;
+	border-radius: 25%;
+}
+
+.user-profile-heading {
+	text-align: center;
+	background-color: #127681;
+	color: white;
+	width: 100%;
+	line-height: 1.5;
+	font-family: cursive;
+	margin: 2rem 0 2rem 0;
+}
+
+
+#map {
+	height: 35vh;
+	width: 100%;
+}
+
+.active {
+	border-bottom: #3b79db solid 3.2px;
+}
+
+footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	background-color: #f5f5f5;
+}
+
+.fa-star.checkedgreen {
+	color: green;
+}
+
+.fa-star.checkedred {
+	color: red;
+}
+
+.fa-star.checkedorange {
+	color: orange;
+}
+
+.rent {
+	color: rgb(86, 86, 86);
+	padding: 3px;
+	border: rgb(224, 224, 224) 2px solid;
+	border-radius: 14px;
+	align-self: flex-start;
+}
+
+.heading {
+	font-size: 1.75rem;
+}
+
+.title {
+	background-color: #E5EDFF;
+	color: #138496;
+	padding: 8px;
+	border-radius: 3%;
+}
+
+.card li svg {
+	font-size: 2px;
+}
+
+@media (max-width: 767px) {
+
+	.jumbotron {
+		text-align: center;
+	}
+
+	.show-img {
+		height: 220px;
+	}
+}
+
+@media (max-width: 991px) {
+
+	.card {
+		font-size: 0.7rem;
+	}
+
+	.heading {
+		font-size: 1rem;
+	}
+}
