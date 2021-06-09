@@ -13,7 +13,7 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local')
 const flash = require('connect-flash')
 const MongoStore = require('connect-mongo');
-const helmet = require('helmet');
+// const helmet = require('helmet');
 
 //requiring routes
 const indexRoutes = require('./routes/index.js')
@@ -52,7 +52,7 @@ app.use(express.urlencoded({
 
 app.use(methodOverride('_method')); // to use put and delete methods
 app.use(flash());
-app.use(helmet());
+// app.use(helmet());
 
 
 
