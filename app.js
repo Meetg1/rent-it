@@ -62,9 +62,9 @@ app.use(flash());
 //=========SESSION CONFIG======================
 const store = MongoStore.create({
 	mongoUrl: dbUrl,
-	touchAfter: 24 * 60 * 60,
+	touchAfter: 60 * 60,
 	crypto: {
-		secret: process.env.SECRET || secret
+		secret: process.env.SECRET || "secret"
 	}
 });
 
