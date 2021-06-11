@@ -219,7 +219,8 @@
                       <h5>Rating:</h5>
                       <div style="display: inline-table" id="rateYo"></div>
                       <h4 class="ratemeter d-inline float-right"></h4>
-                      <input id="rateyoid" class="d-none" type="text" name="review[rating]" value=3> //default rating will be 3 stars
+                      <!-- default rating will be 3 stars -->
+                      <input id="rateyoid" class="d-none" type="text" name="review[rating]" value=3> 
                     </div>
                     <div class="form-group">
                       <textarea required name="review[text]" rows="5" cols="70" class="form-control"
@@ -270,7 +271,7 @@
                   </p>
                 </div>
               </div>
-              <% if(currentUser && review.author.id.equals(currentUser._id)){ %>
+              <% if(currentUser && (review.author.id.equals(currentUser._id) || currentUser.isAdmin)){ %>
               <form class="mt-1" id="delete-form"
                 action="/items/<%=item.slug %>/reviews/<%=review._id %>?_method=DELETE" method="POST">
                 <button class="btn btn-sm btn-danger d-inline"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
