@@ -1,6 +1,8 @@
 
 ## About Rent-it
 Rent-it is a platform where users can list/find items to rent.
+
+It is deployed on heroku. Link: https://rent-it-meet.herokuapp.com
 ## Tech Stack
 ### Front-End
 <img src="https://img.shields.io/badge/HTML-E44D26?style=for-the-badge&logo=html5&logoColor=white"> <img src="https://img.shields.io/badge/CSS-254BDD?&style=for-the-badge&logo=css3&logoColor=white">
@@ -19,3 +21,13 @@ Rent-it is a platform where users can list/find items to rent.
   5. Review an item along with star rating.
 
 ## Screenshots of the project
+1.
+![image](https://user-images.githubusercontent.com/65062473/121778216-a69fb100-cbb3-11eb-9b44-477d01264e93.png)
+2.
+![image](https://user-images.githubusercontent.com/65062473/121778245-c3d47f80-cbb3-11eb-86f4-7c33b8d6b113.png)
+3.
+![image](https://user-images.githubusercontent.com/65062473/121778440-88868080-cbb4-11eb-89c7-36e830047b59.png)
+4.
+![image](https://user-images.githubusercontent.com/65062473/121778293-ec5c7980-cbb3-11eb-8ab8-0c96530f4a90.png)
+5.
+![image](https://user-images.githubusercontent.com/65062473/121778326-0dbd6580-cbb4-11eb-92e0-a63696d6d9ca.png)
