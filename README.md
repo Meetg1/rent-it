@@ -30,4 +30,6 @@ It is deployed on heroku. Link: https://rent-it-meet.herokuapp.com
 4.
 ![image](https://user-images.githubusercontent.com/65062473/121778293-ec5c7980-cbb3-11eb-8ab8-0c96530f4a90.png)
 5.
+![image](https://user-images.githubusercontent.com/65062473/121778672-91c41d00-cbb5-11eb-8d27-bdf2d37cf0cb.png)
+6.
 ![image](https://user-images.githubusercontent.com/65062473/121778326-0dbd6580-cbb4-11eb-92e0-a63696d6d9ca.png)
